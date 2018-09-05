@@ -8,8 +8,6 @@
       - GigabitEthernet2
       - Loopback27
   tasks:
-    - name: Gather IOS facts
-      ios_facts:
 #    - debug:
 #        msg: "{{ hostvars[inventory_hostname] }}"
     - name: Configure interface Loopback27
@@ -18,6 +16,10 @@
         lines:
           - "ip address {{ intlo27_ip }} {{ intlo27_mask }}"
           - "description {{ intlo27_desc }}"
+# We don't need the facts to setup Loopback27, and we need to ansible_net_interfaces facts
+# to include Loopback27. If we call ios_facts before the interface is setup, it will fail.
+    - name: Gather IOS facts
+      ios_facts:
     - name: Configure EIGRP
       ios_config:
         parents: "router eigrp {{ eigrp_asn }}"
