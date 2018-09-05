@@ -1,18 +1,24 @@
 #!/usr/bin/env ansible-playbook
 ---
-# Playbook to gather IOS Facts
+# Playbook to configure EIGRP on multiple routers
 - hosts: eigrp
   gather_facts: yes
   vars:
     interface_list:
       - GigabitEthernet2
-      - Loopback2
+      - Loopback27
   tasks:
-    - name: Gather IOS facts from {{ inventory_hostname }}
+    - name: Gather IOS facts
       ios_facts:
 #    - debug:
 #        msg: "{{ hostvars[inventory_hostname] }}"
-    - name: Configure EIGRP on {{ inventory_hostname }}
+    - name: Configure interface Loopback27
+      ios_config:
+        parents: interface Loopback27
+        lines:
+          - "ip address {{ intlo27_ip }} {{ intlo27_mask }}"
+          - "description {{ intlo27_desc }}"
+    - name: Configure EIGRP
       ios_config:
         parents: "router eigrp {{ eigrp_asn }}"
         lines:
