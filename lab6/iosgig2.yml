@@ -1,0 +1,14 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to gather IOS Facts
+- hosts: ios
+  gather_facts: yes
+  tasks:
+    - name: Gather IOS facts from {{ inventory_hostname }}
+      ios_facts:
+    - name: Configure interface GigabitEthernet2 on {{ inventory_hostname }}
+      ios_config:
+        parents: interface GigabitEthernet2
+        lines:
+          - "ip address {{ intgig2_ip }} {{ intgig2_mask }}"
+          - "description {{ intgig2_desc }}"

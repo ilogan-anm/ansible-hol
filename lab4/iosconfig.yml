@@ -1,0 +1,18 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to gather IOS Facts and configs
+- hosts: ios
+  gather_facts: yes
+  tasks:
+    - name: Gather IOS facts from {{ inventory_hostname }}
+      ios_facts:
+    - name: Gather show running-config from {{ inventory_hostname }}
+      register: showrun_out
+      ios_command:
+        commands: show running-config
+    - name: Write running config to reports/config/hostname.txt
+      copy:
+        content: "{{ showrun_out.stdout | join(' ') }}"
+        dest: "reports/configs/{{ inventory_hostname }}.txt"
+    - name: Generate config report for {{ inventory_hostname }}
+      local_action: template src="templates/iosconfig.j2" dest="reports/{{ inventory_hostname }}.html"

@@ -1,0 +1,201 @@
+Building configuration...
+
+Current configuration : 3891 bytes
+!
+! Last configuration change at 12:24:04 UTC Wed Sep 5 2018
+!
+version 16.8
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console virtual
+!
+hostname {{ inventory_hostname }}
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$PxbS$nQYxoBiMSmEDjJQf88gN1.
+!
+aaa new-model
+!
+!
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+!
+!
+!
+!
+ip domain name demo.dcloud.cisco.com
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-4289190904
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-4289190904
+ revocation-check none
+ rsakeypair TP-self-signed-4289190904
+!
+!
+crypto pki certificate chain TP-self-signed-4289190904
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 34323839 31393039 3034301E 170D3138 30333330 31373132 
+  35395A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D34 32383931 
+  39303930 34308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100F8F6 7BEF0204 BB81DD2B A225A1D4 7A02DD48 763CE333 5E58BB96 
+  EF06BE11 B13806B1 2E95F937 4765602E EA39952B B12B37A2 D39823C9 12E7898A 
+  04438685 14114E38 7E21473C 7D0B171A 2EE75EBE 808F43A1 068309AE 5003D378 
+  492DB0AA 09D503CF A5254822 F340C4A3 B149681D 6DAB30D0 B22EBF29 ADC2010E 
+  6F72458F 3FF34A54 7B8CFC1F 9BAA8285 33C86FD9 BB8B8F9C 47905FA1 CC23295E 
+  775E441E EE559B3E 104D24E2 7FE16140 74789D92 BFCC1F60 0E9A34D7 98018273 
+  1AA45AA3 0A1BF79C 7B578A72 DEBEF9AA 0E9A0CA9 3046C0AE 2646B060 80E08B70 
+  BB557E97 A76239D1 4F3BDD32 3A11D2F7 6E017C10 646C7025 EA0E2729 144DC296 
+  AB28D0D4 859D0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 141F5718 6F1861B4 D459F41F 4EC4642D A933723F 
+  81301D06 03551D0E 04160414 1F57186F 1861B4D4 59F41F4E C4642DA9 33723F81 
+  300D0609 2A864886 F70D0101 05050003 82010100 9BE16AD5 BFCE2C25 682ACBED 
+  F1B65EE5 15D08042 F29D2D33 54859A73 CFB5E4D5 5419EB29 90A02D8B 4B600AC0 
+  97C1DFE1 835156B5 247E5F33 8FE1768B BA33D3AE 7ED1C929 4C505A0C 14D4380B 
+  89E79231 7CE447D6 C8BBFFCB E38909D2 B404546E 1A5C9AF3 AB871595 1FD04837 
+  B8A2F818 9C0FE0F0 580954FA C0954D5F E3DFA886 31F9D841 971748B7 D358093A 
+  977C6D65 FB0596ED 7B74969D 5B22F8DB 6F9FB53C 652A4A9E D2293B4C 421C9115 
+  F5676687 14760E2E 3E960C50 03C5AA93 3F07C00A 5F6F86C5 4E6015CE ABCAA24C 
+  4BCC8D04 097B5A47 BA8FDB2C 646FA257 33F2D4BA 0C388846 3D6E1CBB 45B64C13 
+  B7334BB9 91AF8659 1371B0D9 3F278CB0 58D266B0
+  	quit
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9M93T8LVKM4
+license boot level ax
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+netconf-yang
+!
+restconf
+!
+username cisco privilege 15 secret 5 $1$iQo1$A/nmTfjMk9GKCNbtKrqJc1
+username admin privilege 15 password 0 C1sco12345
+username ian privilege 15 password 0 C1sco12345
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface GigabitEthernet1
+ ip address 198.18.134.11 255.255.192.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+!
+virtual-service csr_mgmt
+ ip shared host-interface GigabitEthernet1
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 GigabitEthernet1 198.18.128.1
+!
+ip ssh rsa keypair-name ssh-key
+ip ssh version 2
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ transport input all
+line vty 5 98
+ transport input all
+!
+wsma agent exec
+!
+wsma agent config
+!
+wsma agent filesys
+!
+wsma agent notify
+!
+!
+end

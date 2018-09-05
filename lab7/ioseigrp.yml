@@ -1,0 +1,20 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to gather IOS Facts
+- hosts: eigrp
+  gather_facts: yes
+  vars:
+    interface_list:
+      - GigabitEthernet2
+      - Loopback2
+  tasks:
+    - name: Gather IOS facts from {{ inventory_hostname }}
+      ios_facts:
+#    - debug:
+#        msg: "{{ hostvars[inventory_hostname] }}"
+    - name: Configure EIGRP on {{ inventory_hostname }}
+      ios_config:
+        parents: "router eigrp {{ eigrp_asn }}"
+        lines:
+        - network {{ ansible_net_interfaces[item]['ipv4'][0]['address'] }} 0.0.0.0
+      with_items: "{{ interface_list }}"

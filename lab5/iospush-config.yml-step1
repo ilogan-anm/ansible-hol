@@ -1,0 +1,7 @@
+#!/usr/bin/env ansible-playbook
+---
+- hosts: csr1
+  gather_facts: yes
+  tasks:
+  - name: Push stored config to {{ inventory_hostname }}
+    ios_config: src="reports/configs/{{ inventory_hostname }}.txt"

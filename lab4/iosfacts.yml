@@ -1,0 +1,8 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to gather IOS Facts
+- hosts: ios
+  gather_facts: yes
+  tasks:
+    - name: Gather IOS facts from {{ inventory_hostname }}
+      ios_facts:
