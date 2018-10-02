@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# For development
+git config credential.helper cache
+#
 if [[ -f $HOME/.setup_done ]]
 then
   echo "Setup is already comlete. "

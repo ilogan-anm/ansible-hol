@@ -1,8 +1,0 @@
-ansible_host: 198.18.134.12
-ansible_connection: network_cli
-ansible_user: admin
-ansible_ssh_pass: C1sco12345
-ansible_network_os: ios
-intgig2_ip: 172.16.1.2
-intgig2_mask: 255.255.255.252
-intgig2_desc: ansible test interface

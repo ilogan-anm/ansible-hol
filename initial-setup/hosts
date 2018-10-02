@@ -1,5 +1,0 @@
-csr1 ansible_host=198.18.134.11 ansible_connection=network_cli ansible_user=admin ansible_ssh_pass=C1sco12345
-csr2 ansible_host=192.18.134.12 ansible_connection=network_cli ansible_user=admin ansible_ssh_pass=C1sco12345
-
-[ansible]
-ansible-ctl ansible_connection=local
