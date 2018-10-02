@@ -1,0 +1,10 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to gather IOS configs 
+- hosts: ios
+  gather_facts: no
+  tasks:
+    - name: Gather show running-config from {{ inventory_hostname }}
+      register: showrun_out
+      ios_command:
+        commands: show running-config
