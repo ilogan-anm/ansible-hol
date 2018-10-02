@@ -1,0 +1,30 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to configure EIGRP on multiple routers
+- hosts: eigrp
+  gather_facts: yes
+  vars:
+    interface_list:
+      - GigabitEthernet2
+      - Loopback27
+  tasks:
+    - name: Configure interface Loopback27
+      ios_config:
+        parents: interface Loopback27
+        lines:
+          - "ip address {{ intlo27_ip }} {{ intlo27_mask }}"
+          - "description {{ intlo27_desc }}"
+# 
+# We call ios_facts after we setup interface Loopback27 because we want to make
+# sure that the ansible_net_interfaces variable inlucdes the IP address for
+# Loopback27. Lookback27 wont exist until the "Configure interface Loopback27"
+# task runs
+#
+    - name: Gather IOS facts
+      ios_facts:
+    - name: Configure EIGRP
+      ios_config:
+        parents: "router eigrp {{ eigrp_asn }}"
+        lines:
+        - network {{ ansible_net_interfaces[item]['ipv4'][0]['address'] }} 0.0.0.0
+      with_items: "{{ interface_list }}"
