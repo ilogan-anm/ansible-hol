@@ -1,5 +1,9 @@
-csr1
-csr2 
+csr1 
+csr2
 
 [ansible]
 ansible-ctl ansible_connection=local
+
+[ios]
+csr1
+csr2

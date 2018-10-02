@@ -1,0 +1,7 @@
+#!/usr/bin/env ansible-playbook
+---
+- hosts: ios
+  gather_facts: no
+  tasks:
+  - name: "Push stored config to IOS devices" 
+    ios_config: src="configs/{{ inventory_hostname }}.txt"
