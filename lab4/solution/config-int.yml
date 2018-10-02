@@ -1,0 +1,24 @@
+#!/usr/bin/env ansible-playbook
+---
+- hosts: csr1
+  gather_facts: no
+  tasks:
+  - name: Gather IOS facts from {{ inventory_hostname }}
+    ios_facts:
+  - name: Configure interface GigabitEthernet2 on {{ inventory_hostname }}
+    ios_config:
+      parents: interface GigabitEthernet2
+      lines:
+        - "ip address 172.16.1.1 255.255.255.0"
+        - "description ansible test interface"
+- hosts: csr2
+  gather_facts: no
+  tasks:
+  - name: Gather IOS facts from {{ inventory_hostname }}
+    ios_facts:
+  - name: Configure interface GigabitEthernet2 on {{ inventory_hostname }}
+    ios_config:
+      parents: interface GigabitEthernet2
+      lines:
+        - "ip address 172.16.1.2 255.255.255.0"
+        - "description ansible test interface"
