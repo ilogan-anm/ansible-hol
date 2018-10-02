@@ -1,0 +1,26 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to gather IOS Facts
+- hosts: csr1
+  gather_facts: yes
+  vars:
+    interface_list:
+      - GigabitEthernet1
+      - GigabitEthernet2
+  tasks:
+    - name: Gather IOS facts
+      ios_facts:
+    - name: Configure Web ACL
+      ios_config:
+        before: no ip access-list extended noweb
+        parents: ip access-list extended noweb
+        lines:
+          - deny tcp any any eq 80
+          - deny tcp any any eq 443
+          - permit ip any any
+    - name: Apply Web ACL
+      ios_config:
+        parents: interface {{ item }}
+        lines:
+          - ip access-group noweb in
+      with_items: "{{ interface_list }}"

@@ -1,0 +1,27 @@
+<HTML>
+  <HEAD> IOS device configuration report for {{ inventory_hostname }} </HEAD>
+  <BODY>
+    <h1> Inventory for {{ inventory_hostname }} </h1>
+      <pre>
+    <!-- code for show inv output -->
+      </pre>
+
+    <h1> IPv4 addresses configured on {{ inventory_hostname }} </h1>
+    {# this is a Jinja 2 comment and won't appear in the final output #}
+    {# ansible_net_ipv4_addresses is defined by the ios_facts module #}
+    {# ansible_net_ipv4_addresses is an array/list of IPv4 addresses #}
+    {# this block of code will iterate across that list, and each time #}
+    {# through the loop, the variable item will have the next IPv4 address #}
+    {# in the list. #}
+    <ul>
+    {% for item in ansible_net_all_ipv4_addresses %}
+      <li> {{ item }}
+    {% endfor %}
+  </ul>
+
+  <h1> Running config for {{ inventory_hostname }} </H1>
+    <pre>
+      {{ showrun_out.stdout | join(' ') }}
+    </pre>
+  </BODY>
+</HMTL>

@@ -1,0 +1,18 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to generate reports on the device configuration
+- hosts: ios
+  gather_facts: yes
+  tasks:
+    - name: Gather IOS facts
+      ios_facts:
+    - name: Gather show running-config
+      register: showrun_out
+      ios_command:
+        commands: show running-config
+# 
+# Add code to gather the output of "show inventory". Use the variable name 
+# showinv_out
+#
+    - name: Generate config report
+      local_action: template src="templates/config-report.j2" dest="reports/{{ inventory_hostname }}.html"
