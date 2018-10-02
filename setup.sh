@@ -48,12 +48,19 @@ then
   mkdir $HOME/.ssh
   chmod 700 $HOME/.ssh
 fi
-grep StrictHostKeyChecking $HOME/.ssh/config > /dev/null 2>&1
-if [[ $? -eq 1 ]]
+if [[ ! -f $HOME/.ssh/config ]]
 then
   echo "Configuring host key checking for SSH in the demo environment."
   echo "Host *" > $HOME/.ssh/config
   echo "   StrictHostKeyChecking no" >> $HOME/.ssh/config
   chmod 600 $HOME/.ssh/config
+fi
+if [[ ! -f $HOME/.ssh/known_hosts ]]
+then
+  ssh-keyscan 198.18.134.11 >> $HOME/.ssh/known_hosts 2>/dev/null
+  ssh-keyscan 198.18.134.12 >> $HOME/.ssh/known_hosts 2>/dev/null
+  ssh-keyscan csr1 >> $HOME/.ssh/known_hosts 2>/dev/null
+  ssh-keyscan csr2 >> $HOME/.ssh/known_hosts 2>/dev/null
+  chmod 600 $HOME/.ssh/known_hosts
 fi
 touch $HOME/.setup_done
