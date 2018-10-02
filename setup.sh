@@ -8,21 +8,52 @@ then
 fi
 
 echo "Setting up the lab environment."
-echo "Installing alternate text editor."
-sudo yum install nano -y 2>&1 >> $HOME/setup.log
-echo "export EDITOR=nano" >> .bash_profile
-echo "Upgrading Ansible."
-sudo pip uninstall --yes ansible 2>&1 >> $HOME/setup.log
 sudo yum makecache 2>&1 >> $HOME/setup.log
-sudo yum install ansible -y 2>&1 >> $HOME/setup.log
-echo "Adding routers to /etc/hosts."
-cp /etc/hosts /tmp/hosts
-echo "198.18.134.11 csr1" >> /tmp/hosts
-echo "198.18.134.12 csr2" >> /tmp/hosts
-sudo mv /tmp/hosts /etc/hosts
-sudo chmod 644 /etc/hosts
-echo "Configuring host key checking for SSH in the demo environment."
-echo "Host *" > $HOME/.ssh/config
-echo "   StrictHostKeyChecking no" >> $HOME/.ssh/config
-chmod 400 $HOME/.ssh/config
+rpm -qi nano 2>&1 > /dev/null
+if [[ $? -eq 1 ]]
+then
+  echo "Installing alternate text editor."
+  sudo yum install nano -y 2>&1 >> $HOME/setup.log
+  echo "export EDITOR=nano" >> .bash_profile
+fi
+rpm -qi ansible > /dev/null 2>&1  
+ANSIBLE_PKG=$?
+pip list 2>&1 | grep ansible > /dev/null 2>&1
+ANSIBLE_PIP=$?
+
+if [[ $ANSIBLE_PKG -eq 1 ]]
+then
+  echo "Upgrading Ansible."
+  if [[ $ANSIBLE_PIP -eq 0 && $ANSIBLE_PKG -eq 1 ]]
+  then 
+    echo "Removing pip ansible version."
+    sudo pip uninstall --yes ansible  >> $HOME/setup.log 2>&1
+  fi
+  echo "Installing EPEL packaged version of ansible."
+  sudo yum install ansible -y 2>&1 >> $HOME/setup.log
+fi
+grep csr1 /etc/hosts 2>&1 > /dev/null
+if [[ $? -eq 1 ]]
+then
+  echo "Adding routers to /etc/hosts."
+  cp /etc/hosts /tmp/hosts
+  echo "198.18.134.11 csr1" >> /tmp/hosts
+  echo "198.18.134.12 csr2" >> /tmp/hosts
+  sudo mv /tmp/hosts /etc/hosts
+  sudo chmod 644 /etc/hosts
+fi
+if [[ ! -d $HOME/.ssh ]]
+then
+  echo "Creating $HOME/.ssh"
+  mkdir $HOME/.ssh
+  chmod 700 $HOME/.ssh
+fi
+grep StrictHostKeyChecking $HOME/.ssh/config > /dev/null 2>&1
+if [[ $? -eq 1 ]]
+then
+  echo "Configuring host key checking for SSH in the demo environment."
+  echo "Host *" > $HOME/.ssh/config
+  echo "   StrictHostKeyChecking no" >> $HOME/.ssh/config
+  chmod 600 $HOME/.ssh/config
+fi
 touch $HOME/.setup_done
