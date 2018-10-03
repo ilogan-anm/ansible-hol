@@ -16,9 +16,9 @@ if [[ $? -eq 1 ]]
 then
   echo "Installing alternate text editor."
   sudo yum install nano -y 2>&1 >> $HOME/setup.log
-  echo "export EDITOR=nano" >> .bash_profile
+  echo "export EDITOR=nano" >> $HOME/.bash_profile
 fi
-rpm -qi ansible > /dev/null 2>&1  
+rpm -qi ansible > /dev/null 2>&1
 ANSIBLE_PKG=$?
 pip list 2>&1 | grep ansible > /dev/null 2>&1
 ANSIBLE_PIP=$?
@@ -27,7 +27,7 @@ if [[ $ANSIBLE_PKG -eq 1 ]]
 then
   echo "Upgrading Ansible."
   if [[ $ANSIBLE_PIP -eq 0 && $ANSIBLE_PKG -eq 1 ]]
-  then 
+  then
     echo "Removing pip ansible version."
     sudo pip uninstall --yes ansible  >> $HOME/setup.log 2>&1
   fi
