@@ -3,3 +3,10 @@ ansible_connection: network_cli
 ansible_user: admin
 ansible_ssh_pass: C1sco12345
 ansible_network_os: ios
+#
+# We don't actually need become in the lab because we're logging in
+# with an active that has privilege level 15
+#
+become: true
+become_method: enable
+#become_become_pass: C1sco12345
