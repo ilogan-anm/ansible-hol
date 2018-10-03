@@ -1,0 +1,8 @@
+ansible_host: 198.18.134.12
+ansible_connection: network_cli
+ansible_user: admin
+ansible_ssh_pass: C1sco12345
+ansible_network_os: ios
+intlo27_ip: 2.2.2.2
+intlo27_mask: 255.255.255.0
+intlo27_desc: Csr2 loopback27

@@ -1,0 +1,16 @@
+#!/usr/bin/env ansible-playbook
+---
+# Playbook to configure demonstrate debug statements
+- hosts: ios
+  gather_facts: no
+  vars:
+    interface_list:
+      - GigabitEthernet1
+      - GigabitEthernet2
+  tasks:
+    - name: Gather IOS facts
+      ios_facts:
+    - name: Display a variable with debug
+      debug: var=interface_list
+    - name: Display a message which can include a variable or fact
+      debug: msg="{{ inventory_hostname }} runs IOS {{ ansible_net_version }}"

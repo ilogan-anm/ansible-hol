@@ -1,0 +1,13 @@
+csr1
+csr2
+
+[ansible]
+ansible-ctl ansible_connection=local
+
+[ios]
+csr1
+csr2
+
+[eigrp]
+csr1
+csr2
